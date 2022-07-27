@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from "next/head";
 
 export default function Home() {
   return (
@@ -13,9 +13,7 @@ export default function Home() {
         <p>Hello World</p>
       </main>
 
-      <footer>
-        Made with 💜 by Rakshit
-      </footer>
+      <footer>Made with 💜 by Rakshit</footer>
     </div>
-  )
+  );
 }
