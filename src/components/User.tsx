@@ -30,7 +30,9 @@ export const User = () => {
         )}
         {isAuthenticated && (
           <Box>
-            <Text marginBottom={5}>{user!.get("ethAddress")}</Text>
+            <Text marginBottom={5}>
+              {user!.get("ethAddress").slice(0, 5) + "..." + user!.get("ethAddress").slice(-5)}
+            </Text>
             <Button
               colorScheme={"red"}
               onClick={() => {
