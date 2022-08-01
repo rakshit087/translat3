@@ -9,12 +9,14 @@ describe("Translate", () => {
   beforeEach(async () => {
     contractFactory = await ethers.getContractFactory("Translat3");
     contract = await contractFactory.deploy();
-    primaryWallet = await ethers.getSigners()[0];
-    secondaryWallet = await ethers.getSigners()[1];
+    [primaryWallet, secondaryWallet] = await ethers.getSigners();
   });
   describe("Deployment", () => {
     it("should deploy the contract", async () => {
       expect(contract.address).to.exist;
+    });
+    it("Should be the right owner", async () => {
+      expect(await contract.deployTransaction.from).to.equal(primaryWallet.address);
     });
   });
 });
