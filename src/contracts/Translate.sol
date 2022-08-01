@@ -2,6 +2,7 @@
 pragma solidity ^0.8.15;
 
 contract Translat3 {
+  
   uint256 public projectId;
   struct Project {
     uint256 id;
