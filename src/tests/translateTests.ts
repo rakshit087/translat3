@@ -44,4 +44,21 @@ describe("Translate", () => {
       expect(project.vault.toString()).to.equal("5000000000000000000");
     });
   });
+  describe("Funding project", () => {
+    it("Should fund the project", async () => {
+      await contract.fundProject(0, {
+        value: ethers.utils.parseUnits("1", "ether"),
+      });
+      const project = await contract.projects(0);
+      expect(project.vault.toString()).to.equal("6000000000000000000");
+    }).timeout(10000);
+    it("Should not be able to fund if project in Translation phase", async () => {
+      await contract.toTranslationPhase(0);
+      await expect(
+        contract.fundProject(0, {
+          value: ethers.utils.parseUnits("1", "ether"),
+        })
+      ).to.be.reverted;
+    });
+  });
 });
