@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { Box, Flex } from "@chakra-ui/react";
 import { SideDrawer } from "../layouts/SideDrawer";
 import { AddProject } from "../layouts/AddProject";
+import { Translate } from "../layouts/Translate";
+import { Home } from "../layouts/Home";
 
 function Dashboard() {
   const { isInitialized, isAuthenticated } = useMoralis();
@@ -24,7 +26,8 @@ function Dashboard() {
       }}
     >
       <SideDrawer currentLayout={currentLayout} setCurrentLayout={setCurrentLayout} />
-      {currentLayout == "home" && <p>Home</p>}
+      {currentLayout == "home" && <Home />}
+      {currentLayout == "translate-projects" && <Translate />}
       {currentLayout == "add-project" && <AddProject />}
     </Flex>
   );

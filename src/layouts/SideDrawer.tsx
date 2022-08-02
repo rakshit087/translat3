@@ -34,9 +34,9 @@ export const SideDrawer = ({ currentLayout, setCurrentLayout }) => {
           icon={<MdOutlineTranslate size={"1.5rem"} />}
           rounded="full"
           size="lg"
-          onClick={() => setCurrentLayout("translate-project")}
+          onClick={() => setCurrentLayout("translate-projects")}
           my={4}
-          bgColor={currentLayout == "translate-project" ? useColorModeValue("gray.300", "gray.800") : "transparent"}
+          bgColor={currentLayout == "translate-projects" ? useColorModeValue("gray.300", "gray.800") : "transparent"}
           color={useColorModeValue("gray.500", "gray.500")}
         />
         <IconButton

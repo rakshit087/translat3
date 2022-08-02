@@ -1,9 +1,9 @@
 import { Box } from "@chakra-ui/react";
 
-export const AddProject = () => {
+export const Home = () => {
   return (
     <Box mx={{ base: "auto", md: "4rem" }}>
-      <p>The cool dashboard comes here</p>
+      <p>The user stats will come here</p>
     </Box>
   );
 };
