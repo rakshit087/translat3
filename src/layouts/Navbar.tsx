@@ -12,7 +12,7 @@ export const Navbar = () => {
       borderBottomColor={useColorModeValue("gray.300", "gray.700")}
       px={16}
     >
-      <Flex h="9.9vh" alignItems={"center"} justifyContent={"space-between"}>
+      <Flex h="9.8vh" alignItems={"center"} justifyContent={"space-between"}>
         <Text fontSize="3xl">Translat3</Text>
         <Box>
           <IconButton
