@@ -6,11 +6,14 @@ import { User } from "../components/User";
 export const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <Box bg={useColorModeValue("gray.100", "gray.900")} px={8}>
-      <Flex h={20} alignItems={"center"} justifyContent={"space-between"}>
-        <Box>
-          <Text fontSize="3xl">Translat3</Text>
-        </Box>
+    <Box
+      bg={useColorModeValue("gray.100", "gray.900")}
+      borderBottom="solid 1px"
+      borderBottomColor={useColorModeValue("gray.300", "gray.700")}
+      px={16}
+    >
+      <Flex h="9.9vh" alignItems={"center"} justifyContent={"space-between"}>
+        <Text fontSize="3xl">Translat3</Text>
         <Box>
           <IconButton
             aria-label="theme switcher"
