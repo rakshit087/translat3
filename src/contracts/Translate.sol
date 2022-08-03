@@ -15,6 +15,20 @@ contract Translat3 {
     string primaryLanguage;
     string translateTo;
     address author;
+    string[] paragraphs;
+  }
+
+  struct Pragraph {
+    uint256 id;
+    uint256 text;
+    string[] translations;
+  }
+
+  struct Translation {
+    uint256 id;
+    uint256 text;
+    address[] voters;
+    uint256 votes;
   }
 
   struct Translator {
