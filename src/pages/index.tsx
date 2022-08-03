@@ -1,17 +1,11 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useMoralis } from "react-moralis";
 import { Box } from "@chakra-ui/react";
 
 export default function Home() {
-  const { isInitialized, isAuthenticated } = useMoralis();
   const router = useRouter();
-
-  useEffect(() => {
-    const checkUser = () => (isAuthenticated ? router.push("/dashboard") : null);
-    isInitialized && checkUser();
-  }, [isInitialized, isAuthenticated]);
+  const isAuthenticated = true;
 
   return (
     <div>
