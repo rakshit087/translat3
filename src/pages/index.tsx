@@ -2,10 +2,15 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Box } from "@chakra-ui/react";
+import { useAccount } from "wagmi";
 
 export default function Home() {
   const router = useRouter();
-  const isAuthenticated = true;
+  const { isConnected } = useAccount();
+  useEffect(() => {
+    const checkUser = () => (isConnected ? router.push("/dashboard") : null);
+    checkUser();
+  }, [isConnected]);
 
   return (
     <div>

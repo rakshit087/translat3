@@ -5,15 +5,17 @@ import { SideDrawer } from "../layouts/SideDrawer";
 import { Translate } from "../layouts/Translate";
 import { Home } from "../layouts/Home";
 import { Pool } from "../layouts/Pool";
+import { useAccount } from "wagmi";
 
 function Dashboard() {
-  const isAuthenticated = true;
+  const { isConnected } = useAccount();
   const router = useRouter();
   const [currentLayout, setCurrentLayout] = useState("home");
+
   useEffect(() => {
-    const checkUser = () => (!isAuthenticated ? router.push("/") : null);
+    const checkUser = () => (!isConnected ? router.push("/") : null);
     checkUser();
-  }, [isAuthenticated]);
+  }, [isConnected]);
 
   return (
     <Flex
