@@ -1,7 +1,7 @@
 import { Box, Flex, IconButton } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/react";
-import { MdOutlineHome } from "react-icons/md/";
-import { MdOutlineAdd, MdOutlineTranslate } from "react-icons/md/";
+import { MdOutlineHome, MdOutlineTranslate } from "react-icons/md/";
+import { AddProject } from "../components/AddProject";
 
 export const SideDrawer = ({ currentLayout, setCurrentLayout }) => {
   return (
@@ -28,7 +28,7 @@ export const SideDrawer = ({ currentLayout, setCurrentLayout }) => {
           bgColor={currentLayout == "home" ? useColorModeValue("gray.300", "gray.800") : "transparent"}
           color={useColorModeValue("gray.500", "gray.500")}
         />
-
+        <AddProject />
         <IconButton
           aria-label="translate project"
           icon={<MdOutlineTranslate size={"1.5rem"} />}
@@ -37,16 +37,6 @@ export const SideDrawer = ({ currentLayout, setCurrentLayout }) => {
           onClick={() => setCurrentLayout("translate-projects")}
           my={4}
           bgColor={currentLayout == "translate-projects" ? useColorModeValue("gray.300", "gray.800") : "transparent"}
-          color={useColorModeValue("gray.500", "gray.500")}
-        />
-        <IconButton
-          aria-label="add project"
-          icon={<MdOutlineAdd size={"1.5rem"} />}
-          rounded="full"
-          size="lg"
-          onClick={() => setCurrentLayout("add-project")}
-          my={4}
-          bgColor={currentLayout == "add-project" ? useColorModeValue("gray.300", "gray.800") : "transparent"}
           color={useColorModeValue("gray.500", "gray.500")}
         />
       </Box>
