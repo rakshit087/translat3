@@ -17,18 +17,21 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
+import { AddProjectButton } from "./AddProjectButton";
 
 export const AddProject = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [progress, setProgress] = useState<number>(20);
   const primaryColor = useColorModeValue<string, string>("purple.400", "purple.100");
+  const [progress, setProgress] = useState<number>(20);
   const [data, setData] = useState<{
+    amount: number;
     description: string;
     fileContent: string;
     languageFrom: string;
     languageTo: string;
     name: string;
   }>({
+    amount: 0,
     description: "",
     fileContent: "",
     languageFrom: "",
@@ -134,6 +137,7 @@ export const AddProject = () => {
                   name="amount"
                   placeholder="Amount in MATIC"
                   variant="flushed"
+                  onChange={(e) => setData({ ...data, amount: parseFloat(e.target.value) })}
                 />
                 <Text fontSize="sm">💡 Tips</Text>
                 <Text fontSize="xs" as="i">
@@ -147,16 +151,7 @@ export const AddProject = () => {
             )}
           </ModalBody>
           <ModalFooter display={"flex"} flexDirection={"row-reverse"} justifyContent="space-between">
-            {progress == 100 && (
-              <Button
-                colorScheme={"purple"}
-                onClick={() => {
-                  console.log(data);
-                }}
-              >
-                Submit 🎉
-              </Button>
-            )}
+            {progress == 100 && <AddProjectButton data={data} />}
             {progress != 100 && (
               <Button
                 colorScheme={"purple"}
