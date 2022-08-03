@@ -1,55 +1,55 @@
-import { useColorMode, useColorModeValue, useDisclosure } from "@chakra-ui/react";
+import { useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { MdOutlineAdd } from "react-icons/md";
-import { ReactDOM, useState } from "react";
+import { useState } from "react";
+import { AddFile } from "./AddFile";
 import {
   Button,
   IconButton,
   Input,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Progress,
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import { AddFile } from "./AddFile";
-import { Formik, Form, Field, ErrorMessage } from "formik";
 
 export const AddProject = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [progress, setProgress] = useState(20);
-  const primaryColor = useColorModeValue("purple.400", "purple.100");
+  const [progress, setProgress] = useState<number>(20);
+  const primaryColor = useColorModeValue<string, string>("purple.400", "purple.100");
   const [data, setData] = useState<{
-    name: string;
     description: string;
+    fileContent: string;
     languageFrom: string;
     languageTo: string;
+    name: string;
   }>({
-    name: "",
     description: "",
+    fileContent: "",
     languageFrom: "",
     languageTo: "",
+    name: "",
   });
-  const [fileContent, setFileContent] = useState("");
 
   return (
     <>
       <IconButton
         aria-label="add project"
-        icon={<MdOutlineAdd size={"1.5rem"} />}
+        borderRadius={{ base: "full", md: "none" }}
+        bottom={{ md: 0 }}
         colorScheme="purple"
+        height={{ base: "2.5rem", md: "4rem" }}
+        icon={<MdOutlineAdd size={"1.5rem"} />}
+        left={{ md: 0 }}
+        mx={{ base: 5, md: "auto" }}
         onClick={onOpen}
         position={{ base: "static", md: "fixed" }}
-        bottom={{ md: 0 }}
-        left={{ md: 0 }}
         width={{ base: "2.5rem", md: "4rem" }}
-        height={{ base: "2.5rem", md: "4rem" }}
-        borderRadius={{ base: "full", md: "none" }}
-        mx={{ base: 5, md: "auto" }}
       />
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
@@ -65,9 +65,9 @@ export const AddProject = () => {
                 <Input
                   variant="flushed"
                   placeholder="Project Name"
-                  focusBorderColor={primaryColor}
-                  my={4}
                   name="name"
+                  my={4}
+                  focusBorderColor={primaryColor}
                 />
                 <Text fontSize="sm">💡 Tips</Text>
                 <Text fontSize="xs" as="i">
@@ -82,12 +82,12 @@ export const AddProject = () => {
                   Give your project a description
                 </Text>
                 <Textarea
-                  variant="flushed"
-                  placeholder="Project Name"
                   focusBorderColor={primaryColor}
                   my={4}
-                  resize="none"
                   name="description"
+                  placeholder="Project Name"
+                  resize="none"
+                  variant="flushed"
                 />
               </>
             )}
@@ -97,16 +97,16 @@ export const AddProject = () => {
                   Let's talk about the languages! 🤓
                 </Text>
                 <Input
-                  variant="flushed"
-                  placeholder="Language of your Project"
                   focusBorderColor={primaryColor}
                   my={4}
+                  placeholder="Language of your Project"
+                  variant="flushed"
                 />
                 <Input
-                  variant="flushed"
-                  placeholder="Language you want to get it translated to"
                   focusBorderColor={primaryColor}
                   my={4}
+                  placeholder="Language you want to get it translated to"
+                  variant="flushed"
                 />
               </>
             )}
@@ -125,11 +125,11 @@ export const AddProject = () => {
                   Let's fund your project
                 </Text>
                 <Input
-                  variant="flushed"
-                  placeholder="Amount in MATIC"
                   focusBorderColor={primaryColor}
                   my={4}
                   name="amount"
+                  placeholder="Amount in MATIC"
+                  variant="flushed"
                 />
                 <Text fontSize="sm">💡 Tips</Text>
                 <Text fontSize="xs" as="i">
@@ -142,7 +142,7 @@ export const AddProject = () => {
               </>
             )}
           </ModalBody>
-          <ModalFooter display={"flex"} justifyContent="space-between" flexDirection={"row-reverse"}>
+          <ModalFooter display={"flex"} flexDirection={"row-reverse"} justifyContent="space-between">
             {progress == 100 && (
               <Button colorScheme={"purple"} onClick={() => {}} type="submit">
                 Submit 🎉
@@ -168,7 +168,7 @@ export const AddProject = () => {
               </Button>
             )}
           </ModalFooter>
-          <Progress isAnimated value={progress} size={"sm"} colorScheme="purple" />
+          <Progress colorScheme="purple" isAnimated size={"sm"} value={progress} />
         </ModalContent>
       </Modal>
     </>
