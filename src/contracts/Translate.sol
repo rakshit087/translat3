@@ -4,6 +4,20 @@ pragma solidity ^0.8.9;
 contract Translat3 {
   
   uint256 public projectId;
+  uint256 private paragraphId;
+  
+  struct Translation {
+    uint256 id;
+    uint256 text;
+    address[] voters;
+    uint256 votes;
+  }
+
+  struct Pragraph {
+    uint256 id;
+    string text;
+    string[] translations;
+  }
 
   struct Project {
     uint256 id;
@@ -15,20 +29,7 @@ contract Translat3 {
     string primaryLanguage;
     string translateTo;
     address author;
-    string[] paragraphs;
-  }
-
-  struct Pragraph {
-    uint256 id;
-    uint256 text;
-    string[] translations;
-  }
-
-  struct Translation {
-    uint256 id;
-    uint256 text;
-    address[] voters;
-    uint256 votes;
+    Pragraph[] paragraphs;
   }
 
   struct Translator {
@@ -49,17 +50,22 @@ contract Translat3 {
     string memory _title,
     string memory _description,
     string memory _primaryLanguage,
-    string memory _translateTo
+    string memory _translateTo,
+    string[] memory _paragraphs 
   ) external payable {
     require(msg.value > 0, "Initial funds needed");
-    Project memory _project;
-    _project.title = _title;
-    _project.description = _description;
-    _project.primaryLanguage = _primaryLanguage;
-    _project.translateTo = _translateTo;
-    _project.vault = msg.value;
-    _project.author = msg.sender;
-    projects[projectId] = _project;
+    projects[projectId].title = _title;
+    projects[projectId].description = _description;
+    projects[projectId].primaryLanguage = _primaryLanguage;
+    projects[projectId].translateTo = _translateTo;
+    projects[projectId].vault = msg.value;
+    projects[projectId].author = msg.sender;
+    for(uint256 i = 0; i < _paragraphs.length; i++) {
+      Pragraph memory _paragraph;
+      _paragraph.id = paragraphId++;
+      _paragraph.text = _paragraphs[i];
+      projects[projectId].paragraphs.push(_paragraph);
+    }
     projectId++;
   }
 
