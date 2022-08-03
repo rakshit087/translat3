@@ -63,11 +63,12 @@ export const AddProject = () => {
                   What's your project called?
                 </Text>
                 <Input
-                  variant="flushed"
-                  placeholder="Project Name"
-                  name="name"
-                  my={4}
                   focusBorderColor={primaryColor}
+                  my={4}
+                  name="name"
+                  onChange={(e) => setData({ ...data, name: e.target.value })}
+                  placeholder="Project Name"
+                  variant="flushed"
                 />
                 <Text fontSize="sm">💡 Tips</Text>
                 <Text fontSize="xs" as="i">
@@ -85,6 +86,7 @@ export const AddProject = () => {
                   focusBorderColor={primaryColor}
                   my={4}
                   name="description"
+                  onChange={(e) => setData({ ...data, description: e.target.value })}
                   placeholder="Project Name"
                   resize="none"
                   variant="flushed"
@@ -99,12 +101,14 @@ export const AddProject = () => {
                 <Input
                   focusBorderColor={primaryColor}
                   my={4}
+                  onChange={(e) => setData({ ...data, languageFrom: e.target.value })}
                   placeholder="Language of your Project"
                   variant="flushed"
                 />
                 <Input
                   focusBorderColor={primaryColor}
                   my={4}
+                  onChange={(e) => setData({ ...data, languageTo: e.target.value })}
                   placeholder="Language you want to get it translated to"
                   variant="flushed"
                 />
@@ -116,7 +120,7 @@ export const AddProject = () => {
                   Add your project file
                 </Text>
                 <Text fontSize="xs">*We only support .txt files for now</Text>
-                <AddFile />
+                <AddFile data={data} setData={setData} />
               </>
             )}
             {progress == 100 && (
@@ -144,7 +148,12 @@ export const AddProject = () => {
           </ModalBody>
           <ModalFooter display={"flex"} flexDirection={"row-reverse"} justifyContent="space-between">
             {progress == 100 && (
-              <Button colorScheme={"purple"} onClick={() => {}} type="submit">
+              <Button
+                colorScheme={"purple"}
+                onClick={() => {
+                  console.log(data);
+                }}
+              >
                 Submit 🎉
               </Button>
             )}
