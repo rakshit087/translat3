@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { useContract, useSigner } from "wagmi";
 import { Button } from "@chakra-ui/react";
-import abiJSON from "../artifacts/src/contracts/Translate.sol/Translat3.json";
+import abiJSON from "../hardhat/artifacts/src/hardhat/contracts/Translate.sol/Translat3.json";
 
 export const AddProjectButton = ({ data }) => {
   const { data: signer } = useSigner();
