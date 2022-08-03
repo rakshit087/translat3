@@ -19,10 +19,10 @@ describe("Translate", () => {
     });
   });
   beforeEach(async () => {
-    await contract.postProject("Project 1", "Description 1", "English", "Hindi", {
+    await contract.postProject("Project 1", "Description 1", "English", "Hindi", ["para1p1", "para2p1", "para3p1"], {
       value: ethers.utils.parseUnits("5", "ether"),
     });
-    await contract.postProject("Project 2", "Description 2", "English", "Spanish", {
+    await contract.postProject("Project 2", "Description 2", "English", "Spanish", ["para1p2", "para2p2", "para3p2"], {
       value: ethers.utils.parseUnits("1", "ether"),
     });
   });
@@ -32,8 +32,9 @@ describe("Translate", () => {
       expect(projectCount.toString()).to.equal("2");
     });
     it("Project should be posted with the right details", async () => {
-      const project = await contract.projects(0);
+      const project = await contract.getProject(0);
       expect(project.title).to.equal("Project 1");
+      expect(project.paragraphs[0].text).to.equal("para1p1");
     });
     it("Project owner should be the primary wallet", async () => {
       const project = await contract.projects(0);
