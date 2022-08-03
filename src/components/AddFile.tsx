@@ -2,15 +2,19 @@ import { useDropzone } from "react-dropzone";
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import { useState } from "react";
 
-export const AddFile = () => {
+export const AddFile = ({ data, setData }) => {
   const [message, setMessage] = useState("Drag 'n' drop some files here, or click to select files");
 
   const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
     setMessage(file.name);
     const reader = new FileReader();
-    reader.onload = (event) => {
-      const lines = event.target.result;
+    reader.onload = async (event) => {
+      const lines = await event.target.result;
+      setData({
+        ...data,
+        fileContent: lines,
+      });
     };
     reader.readAsText(file);
   };
