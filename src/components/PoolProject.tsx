@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import Image from "next/image";
+import { PoolProjectButton } from "./PoolProjectButton";
 
 interface datatype {
   name: string;
@@ -39,9 +40,7 @@ export const PoolProject = (data: datatype) => {
         </Box>
       </Flex>
       <Flex py={1} h={10} alignItems={"center"} justifyContent="space-between" roundedBottom={"xl"}>
-        <Button colorScheme={"purple"} variant="solid" w="100%" rounded={"xl"}>
-          Pool Now
-        </Button>
+        <PoolProjectButton />
       </Flex>
     </Flex>
   );

@@ -24,14 +24,14 @@ export const AddProject = ({ setCurrentLayout }) => {
   const primaryColor = useColorModeValue<string, string>("purple.400", "purple.100");
   const [progress, setProgress] = useState<number>(20);
   const [data, setData] = useState<{
-    amount: number;
+    amount: string;
     description: string;
     fileContent: string;
     languageFrom: string;
     languageTo: string;
     name: string;
   }>({
-    amount: 0,
+    amount: "0",
     description: "",
     fileContent: "",
     languageFrom: "",
@@ -71,6 +71,7 @@ export const AddProject = ({ setCurrentLayout }) => {
                   name="name"
                   onChange={(e) => setData({ ...data, name: e.target.value })}
                   placeholder="Project Name"
+                  value={data.name}
                   variant="flushed"
                 />
                 <Text fontSize="sm">💡 Tips</Text>
@@ -90,8 +91,9 @@ export const AddProject = ({ setCurrentLayout }) => {
                   my={4}
                   name="description"
                   onChange={(e) => setData({ ...data, description: e.target.value })}
-                  placeholder="Project Name"
+                  placeholder="Write a short description of your project"
                   resize="none"
+                  value={data.description}
                   variant="flushed"
                 />
               </>
@@ -106,6 +108,7 @@ export const AddProject = ({ setCurrentLayout }) => {
                   my={4}
                   onChange={(e) => setData({ ...data, languageFrom: e.target.value })}
                   placeholder="Language of your Project"
+                  value={data.languageFrom}
                   variant="flushed"
                 />
                 <Input
@@ -113,6 +116,7 @@ export const AddProject = ({ setCurrentLayout }) => {
                   my={4}
                   onChange={(e) => setData({ ...data, languageTo: e.target.value })}
                   placeholder="Language you want to get it translated to"
+                  value={data.languageTo}
                   variant="flushed"
                 />
               </>
@@ -135,9 +139,11 @@ export const AddProject = ({ setCurrentLayout }) => {
                   focusBorderColor={primaryColor}
                   my={4}
                   name="amount"
+                  onChange={(e) => setData({ ...data, amount: e.target.value.length == 0 ? "0" : e.target.value })}
                   placeholder="Amount in MATIC"
                   variant="flushed"
-                  onChange={(e) => setData({ ...data, amount: parseFloat(e.target.value) })}
+                  value={data.amount == "0" ? "" : data.amount}
+                  type={"number"}
                 />
                 <Text fontSize="sm">💡 Tips</Text>
                 <Text fontSize="xs" as="i">
@@ -151,7 +157,9 @@ export const AddProject = ({ setCurrentLayout }) => {
             )}
           </ModalBody>
           <ModalFooter display={"flex"} flexDirection={"row-reverse"} justifyContent="space-between">
-            {progress == 100 && <AddProjectButton dataProp={data} setCurrentLayout={setCurrentLayout} />}
+            {progress == 100 && (
+              <AddProjectButton dataProp={data} setCurrentLayout={setCurrentLayout} onClose={onClose} />
+            )}
             {progress != 100 && (
               <Button
                 colorScheme={"purple"}
