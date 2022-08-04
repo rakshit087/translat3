@@ -7,16 +7,17 @@ export const SideDrawer = ({ currentLayout, setCurrentLayout }) => {
   const primaryColor = useColorModeValue("gray.300", "gray.800");
   return (
     <Flex
+      alignItems="center"
       bgColor={useColorModeValue("gray.100", "gray.900")}
-      w={{ base: "100vw", md: "4rem" }}
-      h={{ base: "5rem", md: "90vh" }}
       borderRight="solid 1px"
       borderRightColor={primaryColor}
-      flexDirection="column"
-      alignItems="center"
+      bottom={0}
+      flexDirection={{ md: "column" }}
+      h={{ base: "5rem", md: "90vh" }}
       justifyContent="center"
       position="fixed"
-      bottom={0}
+      w={{ base: "100vw", md: "4rem" }}
+      zIndex={1}
     >
       <IconButton
         aria-label="translate project"
