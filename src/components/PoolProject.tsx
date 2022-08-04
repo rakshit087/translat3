@@ -16,7 +16,7 @@ export const PoolProject = (data: datatype) => {
       <Flex grow={1} flexDir={"column"}>
         <Flex flexDirection={"row-reverse"} position="relative" left={5}>
           <Button disabled colorScheme="purple" variant="solid" size={"sm"} rounded="2xl" marginLeft={2}>
-            100
+            {data.pooledAmount} MATIC
           </Button>
           <Button disabled colorScheme="purple" variant="solid" size={"sm"} rounded="2xl" margin={0}>
             {data.languageFrom.slice(0, 3)} to {data.languageTo.slice(0, 3)}
