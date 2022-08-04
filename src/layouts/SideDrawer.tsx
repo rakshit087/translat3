@@ -50,7 +50,7 @@ export const SideDrawer = ({ currentLayout, setCurrentLayout }) => {
         color={"gray.500"}
       />
       <Box textAlign="center">
-        <AddProject />
+        <AddProject setCurrentLayout={setCurrentLayout} />
       </Box>
     </Flex>
   );
