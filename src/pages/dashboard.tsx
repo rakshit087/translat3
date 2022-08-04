@@ -25,9 +25,11 @@ function Dashboard() {
       }}
     >
       <SideDrawer currentLayout={currentLayout} setCurrentLayout={setCurrentLayout} />
-      {currentLayout == "home" && <Home />}
-      {currentLayout == "translate-projects" && <Translate />}
-      {currentLayout == "pool" && <Pool />}
+      <Flex grow={1} mt={"10vh"} ml={{ base: 0, md: "4rem" }} px={{ base: 12, md: 16 }} py={8}>
+        {currentLayout == "home" && <Home />}
+        {currentLayout == "translate-projects" && <Translate />}
+        {currentLayout == "pool" && <Pool />}
+      </Flex>
     </Flex>
   );
 }
