@@ -4,10 +4,23 @@ import { useWaitForTransaction, useContractWrite, usePrepareContractWrite } from
 import { useEffect } from "react";
 import { Button, useToast } from "@chakra-ui/react";
 
-export const AddProjectButton = ({ dataProp, setCurrentLayout, onClose }) => {
+interface datatypes {
+  dataProp: {
+    name: string;
+    description: string;
+    languageFrom: string;
+    languageTo: string;
+    amount: string;
+    fileContent: string;
+  };
+  onClose: () => void;
+}
+
+export const AddProjectButton = ({ dataProp, onClose }: datatypes) => {
   const paragraphs = dataProp.fileContent.split("/\r?\n|\r/g");
   const args = [dataProp.name, dataProp.description, dataProp.languageFrom, dataProp.languageTo, paragraphs];
   const value = dataProp.amount;
+  const toast = useToast();
   const { config } = usePrepareContractWrite({
     addressOrName: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
     contractInterface: abiJSON.abi,
@@ -18,14 +31,9 @@ export const AddProjectButton = ({ dataProp, setCurrentLayout, onClose }) => {
     },
   });
   const { data, write } = useContractWrite(config);
-  const {
-    data: tx,
-    isLoading,
-    isSuccess,
-  } = useWaitForTransaction({
-    hash: data?.hash,
-  });
-  const toast = useToast();
+  const { isSuccess } = useWaitForTransaction({ hash: data?.hash });
+
+  //On translation complete, show a toast
   useEffect(() => {
     if (isSuccess) {
       onClose();
@@ -36,12 +44,8 @@ export const AddProjectButton = ({ dataProp, setCurrentLayout, onClose }) => {
         duration: 5000,
         isClosable: true,
       });
-      setCurrentLayout("");
-      setTimeout(() => {
-        setCurrentLayout("pool");
-      }, 10);
     }
-  }, [isSuccess, tx]);
+  }, [isSuccess]);
 
   return (
     <Button

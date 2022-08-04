@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { AddProjectButton } from "./AddProjectButton";
 
-export const AddProject = ({ setCurrentLayout }) => {
+export const AddProject = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const primaryColor = useColorModeValue<string, string>("purple.400", "purple.100");
   const [progress, setProgress] = useState<number>(20);
@@ -157,9 +157,7 @@ export const AddProject = ({ setCurrentLayout }) => {
             )}
           </ModalBody>
           <ModalFooter display={"flex"} flexDirection={"row-reverse"} justifyContent="space-between">
-            {progress == 100 && (
-              <AddProjectButton dataProp={data} setCurrentLayout={setCurrentLayout} onClose={onClose} />
-            )}
+            {progress == 100 && <AddProjectButton dataProp={data} onClose={onClose} />}
             {progress != 100 && (
               <Button
                 colorScheme={"purple"}
