@@ -1,8 +1,9 @@
 import { Box, Button, Flex, Text, useColorModeValue } from "@chakra-ui/react";
-import Image from "next/image";
+import { useState } from "react";
 import { PoolProjectButton } from "./PoolProjectButton";
 
 interface datatype {
+  id: number;
   name: string;
   description: string;
   languageFrom: string;
@@ -11,13 +12,14 @@ interface datatype {
 }
 
 export const PoolProject = (data: datatype) => {
+  const [amount, setAmount] = useState(data.pooledAmount);
   const bgColor = useColorModeValue("gray.100", "gray.700");
   return (
     <Flex bgColor={bgColor} flexDirection={"column"} height={80} borderRadius="xl" px={8} py={4}>
       <Flex grow={1} flexDir={"column"}>
         <Flex flexDirection={"row-reverse"} position="relative" left={5}>
           <Button disabled colorScheme="purple" variant="solid" size={"sm"} rounded="2xl" marginLeft={2}>
-            {data.pooledAmount} MATIC
+            {amount} MATIC
           </Button>
           <Button disabled colorScheme="purple" variant="solid" size={"sm"} rounded="2xl" margin={0}>
             {data.languageFrom.slice(0, 3)} to {data.languageTo.slice(0, 3)}
@@ -40,7 +42,7 @@ export const PoolProject = (data: datatype) => {
         </Box>
       </Flex>
       <Flex py={1} h={10} alignItems={"center"} justifyContent="space-between" roundedBottom={"xl"}>
-        <PoolProjectButton />
+        <PoolProjectButton projectId={data.id} amount={amount} setAmount={setAmount} />
       </Flex>
     </Flex>
   );

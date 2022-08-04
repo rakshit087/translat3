@@ -27,8 +27,11 @@ export const Pool = () => {
       {!isLoading && filtered && (
         <SimpleGrid minChildWidth={{ base: "16rem", md: "20rem" }} w="100%" spacing={"2.5rem"}>
           {filtered.map((project) => {
+            console.log(project);
             return (
               <PoolProject
+                key={project.id}
+                id={parseInt(project.projectId)}
                 name={project.title}
                 description={project.description}
                 languageFrom={project.primaryLanguage}
