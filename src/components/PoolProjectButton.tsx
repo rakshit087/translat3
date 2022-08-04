@@ -84,7 +84,7 @@ export const PoolProjectButton = ({ projectId, amount, setAmount }: datatype) =>
               colorScheme={"purple"}
               w={"100%"}
               onClick={() => {
-                console.log(projectId);
+                write();
               }}
             >
               Contribute Now
@@ -93,7 +93,7 @@ export const PoolProjectButton = ({ projectId, amount, setAmount }: datatype) =>
         </ModalContent>
       </Modal>
       <Button colorScheme={"purple"} variant="solid" w="100%" rounded={"xl"} onClick={onOpen}>
-        Pool Now
+        Contribute
       </Button>
     </>
   );

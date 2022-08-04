@@ -18,7 +18,6 @@ export const Pool = () => {
     if (data) {
       const filtered = data.filter((project) => project.title !== "");
       setFiltered(filtered);
-      console.log(filtered);
     }
     setPage(page + 1);
   }, [data]);
@@ -28,7 +27,6 @@ export const Pool = () => {
       {!isLoading && filtered && (
         <SimpleGrid minChildWidth={{ base: "16rem", md: "20rem" }} w="100%" spacing={"2.5rem"}>
           {filtered.map((project) => {
-            console.log(project);
             return (
               <PoolProject
                 key={parseInt(project.id)}

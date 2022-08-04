@@ -12,7 +12,7 @@ interface datatype {
 }
 
 export const PoolProject = (data: datatype) => {
-  const [amount, setAmount] = useState(data.pooledAmount);
+  const [amount, setAmount] = useState<string>(data.pooledAmount);
   const bgColor = useColorModeValue("gray.100", "gray.700");
   return (
     <Flex bgColor={bgColor} flexDirection={"column"} height={80} borderRadius="xl" px={8} py={4}>
