@@ -11,7 +11,12 @@ const secondaryWallet: string | null = process.env.WALLET_SECONDARY;
 const config: HardhatUserConfig = {
   solidity: "0.8.9",
   networks: {
+    localhost: {
+      url: "http://localhost:8545",
+      accounts: [primaryWallet, secondaryWallet],
+    },
     hardhat: {
+      chainId: 31337,
       accounts: [
         {
           privateKey: primaryWallet,
