@@ -43,16 +43,16 @@ export const AddProject = () => {
     <>
       <IconButton
         aria-label="add project"
-        borderRadius={{ base: "full", md: "none" }}
-        bottom={{ md: 0 }}
+        borderRadius={"none"}
+        bottom={0}
         colorScheme="purple"
         height={{ base: "2.5rem", md: "4rem" }}
         icon={<MdOutlineAdd size={"1.5rem"} />}
         left={{ md: 0 }}
         mx={{ base: 5, md: "auto" }}
         onClick={onOpen}
-        position={{ base: "static", md: "fixed" }}
-        width={{ base: "2.5rem", md: "4rem" }}
+        position={"fixed"}
+        width={"4rem"}
       />
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
