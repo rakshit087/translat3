@@ -54,6 +54,7 @@ contract Translat3 {
     string[] memory _paragraphs
   ) external payable {
     require(msg.value > 0, "Initial funds needed");
+    projects[projectId].id = projectId;
     projects[projectId].title = _title;
     projects[projectId].description = _description;
     projects[projectId].primaryLanguage = _primaryLanguage;
