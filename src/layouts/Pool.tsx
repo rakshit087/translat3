@@ -1,13 +1,13 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import { PoolProject } from "../components/PoolProject";
-import { useContractRead, useSigner } from "wagmi";
+import { useContractRead } from "wagmi";
 import abiJSON from "../hardhat/artifacts/src/hardhat/contracts/Translate.sol/Translat3.json";
 import { useEffect, useState } from "react";
 
 export const Pool = () => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
   const [filtered, setFiltered] = useState(null);
-  const { data, isError, isLoading } = useContractRead({
+  const { data, isLoading } = useContractRead({
     addressOrName: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
     contractInterface: abiJSON.abi,
     functionName: "getLatestPoolProjects",
@@ -20,6 +20,7 @@ export const Pool = () => {
       setFiltered(filtered);
       console.log(filtered);
     }
+    setPage(page + 1);
   }, [data]);
 
   return (
@@ -30,8 +31,8 @@ export const Pool = () => {
             console.log(project);
             return (
               <PoolProject
-                key={project.id}
-                id={parseInt(project.projectId)}
+                key={parseInt(project.id)}
+                id={parseInt(project.id)}
                 name={project.title}
                 description={project.description}
                 languageFrom={project.primaryLanguage}
