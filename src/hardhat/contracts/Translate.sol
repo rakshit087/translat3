@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
+import "hardhat/console.sol";
 
 contract Translat3 {
-  
   uint256 public projectId;
   uint256 private paragraphId;
-  
+
   struct Translation {
     uint256 id;
     uint256 text;
@@ -51,7 +51,7 @@ contract Translat3 {
     string memory _description,
     string memory _primaryLanguage,
     string memory _translateTo,
-    string[] memory _paragraphs 
+    string[] memory _paragraphs
   ) external payable {
     require(msg.value > 0, "Initial funds needed");
     projects[projectId].title = _title;
@@ -60,7 +60,8 @@ contract Translat3 {
     projects[projectId].translateTo = _translateTo;
     projects[projectId].vault = msg.value;
     projects[projectId].author = msg.sender;
-    for(uint256 i = 0; i < _paragraphs.length; i++) {
+    projects[projectId].status = 0;
+    for (uint256 i = 0; i < _paragraphs.length; i++) {
       Pragraph memory _paragraph;
       _paragraph.id = paragraphId++;
       _paragraph.text = _paragraphs[i];
@@ -84,6 +85,23 @@ contract Translat3 {
     projects[_projectId].status = 1;
   }
 
+  function getLatestPoolProjects(uint256 _flag) external view returns (Project[] memory) {
+    require(projectId - ((_flag - 1) * 10) > 0);
+    uint256 _localProjectId = projectId - ((_flag - 1) * 10);
+    console.log("Local project id: ", _localProjectId);
+    uint256 _count = 0;
+    Project[] memory _projects = new Project[](10);
+    while (_count < 10 && _localProjectId > 0) {
+      if (projects[_localProjectId].status == 0) {
+        _projects[_count] = projects[_localProjectId-1];
+        _localProjectId--;
+        _count++;
+      }
+    }
+    return _projects;
+  }
+
+  //@TODO: Improve the security of this function
   function distribute(uint256 _projectId, Distribution memory _distribution) external payable {
     require(projects[_projectId].author == msg.sender);
     require(projects[_projectId].status == 1);

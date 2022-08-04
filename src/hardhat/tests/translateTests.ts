@@ -62,4 +62,21 @@ describe("Translate", () => {
       ).to.be.reverted;
     });
   });
+  describe("Getting Latest Pool Projects", () => {
+    it("Should return the latest projects", async () => {
+      for (let i = 0; i < 10; i++) {
+        await contract.postProject("Project " + (i + 3).toString(), "", "", "", [""], {
+          value: ethers.utils.parseUnits("1", "ether"),
+        });
+      }
+      const projects = await contract.getLatestPoolProjects(1);
+      expect(projects.length).to.equal(10);
+      expect(projects[0].title).to.equal("Project 12");
+      expect(projects[9].title).to.equal("Project 3");
+      const projectsPage2 = await contract.getLatestPoolProjects(2);
+      expect(projectsPage2.length).to.equal(10);
+      expect(projectsPage2[0].title).to.equal("Project 2");
+      expect(projectsPage2[1].title).to.equal("Project 1");
+    }).timeout(10000);
+  });
 });
