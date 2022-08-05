@@ -24,39 +24,33 @@ function Contribute() {
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       const filtered = data.filter((project) => project.title !== "");
       setFiltered(filtered);
     }
-    setPage(page + 1);
+    //setPage(page + 1);
   }, [data]);
 
   return (
-    <Flex
-      flexDirection={{
-        base: "column",
-        md: "row",
-      }}
-    >
-      <Flex grow={1} mt={"10vh"} ml={{ base: 0, md: "4rem" }} px={{ base: 12, md: 16 }} py={8}>
-        {!isLoading && filtered && (
-          <SimpleGrid minChildWidth={{ base: "16rem", md: "20rem" }} w="100%" spacing={"2.5rem"}>
-            {filtered.map((project) => {
-              return (
-                <PoolProject
-                  key={parseInt(project.id)}
-                  id={parseInt(project.id)}
-                  name={project.title}
-                  description={project.description}
-                  languageFrom={project.primaryLanguage}
-                  languageTo={project.translateTo}
-                  pooledAmount={(parseFloat(project.vault) / 1000000000000000000).toString()}
-                />
-              );
-            })}
-          </SimpleGrid>
-        )}
-        {isLoading && <div>Loading...</div>}
-      </Flex>
+    <Flex grow={1} mt={"10vh"} ml={{ base: 0, md: "4rem" }} px={{ base: 12, md: 16 }} py={8}>
+      {!isLoading && filtered && (
+        <SimpleGrid minChildWidth={{ base: "16rem", md: "20rem" }} w="100%" spacing={"2.5rem"}>
+          {filtered.map((project) => {
+            return (
+              <PoolProject
+                key={parseInt(project.id)}
+                id={parseInt(project.id)}
+                name={project.title}
+                description={project.description}
+                languageFrom={project.primaryLanguage}
+                languageTo={project.translateTo}
+                pooledAmount={(parseFloat(project.vault) / 1000000000000000000).toString()}
+              />
+            );
+          })}
+        </SimpleGrid>
+      )}
+      {isLoading && <div>Loading...</div>}
     </Flex>
   );
 }

@@ -27,7 +27,12 @@ function MyApp({ Component, pageProps }) {
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains}>
           <Navbar />
-          <Flex>
+          <Flex
+            flexDirection={{
+              base: "column",
+              md: "row",
+            }}
+          >
             <SideDrawer />
             <Component {...pageProps} />
           </Flex>
