@@ -1,9 +1,9 @@
-import { useRouter } from "next/router";
-import { useAccount, useContractRead } from "wagmi";
-import { PoolProject } from "../components/PoolProject";
-import { Flex, SimpleGrid } from "@chakra-ui/react";
 import abiJSON from "../hardhat/artifacts/src/hardhat/contracts/Translate.sol/Translat3.json";
-import React, { useEffect, useState } from "react";
+import { Flex, SimpleGrid } from "@chakra-ui/react";
+import { PoolProject } from "../components/PoolProject";
+import { useAccount, useContractRead } from "wagmi";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 function Contribute() {
   const { isConnected } = useAccount();
