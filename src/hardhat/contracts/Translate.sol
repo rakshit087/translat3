@@ -5,6 +5,7 @@ import "hardhat/console.sol";
 contract Translat3 {
   uint256 public projectId;
   uint256 private paragraphId;
+  uint256 private traslateId;
 
   struct Translation {
     uint256 id;
@@ -29,7 +30,7 @@ contract Translat3 {
     string primaryLanguage;
     string translateTo;
     address author;
-    Pragraph[] paragraphs;
+    uint256[] paragraphs;
   }
 
   struct Translator {
@@ -45,6 +46,8 @@ contract Translat3 {
 
   mapping(address => Translator) public translators;
   mapping(uint256 => Project) public projects;
+  mapping(uint256 => Pragraph) public paragraphs;
+  mapping(uint256 => Translation) public translations;
   mapping(address => uint256[]) public authors;
 
   function postProject(
@@ -65,9 +68,11 @@ contract Translat3 {
     projects[projectId].status = 0;
     for (uint256 i = 0; i < _paragraphs.length; i++) {
       Pragraph memory _paragraph;
-      _paragraph.id = paragraphId++;
+      _paragraph.id = paragraphId;
       _paragraph.text = _paragraphs[i];
-      projects[projectId].paragraphs.push(_paragraph);
+      projects[projectId].paragraphs.push(paragraphId);
+      paragraphs[paragraphId] = _paragraph;
+      paragraphId++;
     }
     authors[msg.sender].push(projectId);
     projectId++;
@@ -85,7 +90,7 @@ contract Translat3 {
     Project[] memory _projects = new Project[](10);
     while (_count < 10 && _localProjectId > 0) {
       if (projects[_localProjectId].status == 0) {
-        _projects[_count] = projects[_localProjectId-1];
+        _projects[_count] = projects[_localProjectId - 1];
         _localProjectId--;
         _count++;
       }
@@ -101,7 +106,7 @@ contract Translat3 {
     Project[] memory _projects = new Project[](10);
     while (_count < 10 && _localProjectId > 0) {
       if (projects[_localProjectId].status == 1) {
-        _projects[_count] = projects[_localProjectId-1];
+        _projects[_count] = projects[_localProjectId - 1];
         _localProjectId--;
         _count++;
       }
@@ -117,13 +122,14 @@ contract Translat3 {
     Project[] memory _projects = new Project[](_requiredCount);
     while (_count < _requiredCount) {
       if (projects[_pointer].status == 1) {
-        _projects[_count] = projects[_pointer-1];
+        _projects[_count] = projects[_pointer - 1];
         _pointer--;
         _count++;
       }
     }
     return _projects;
   }
+
   function getLatestAuthorPoolProjects(uint256 _flag) external view returns (Project[] memory) {
     require(authors[msg.sender].length - ((_flag - 1) * 10) > 0);
     uint256 _requiredCount = authors[msg.sender].length > 10 ? 10 : authors[msg.sender].length;
@@ -132,12 +138,20 @@ contract Translat3 {
     Project[] memory _projects = new Project[](_requiredCount);
     while (_count < _requiredCount) {
       if (projects[_pointer].status == 0) {
-        _projects[_count] = projects[_pointer-1];
+        _projects[_count] = projects[_pointer - 1];
         _pointer--;
         _count++;
       }
     }
     return _projects;
+  }
+
+  function getProjectParagraphs(uint256 _id) public view returns (Pragraph[] memory) {
+    Pragraph[] memory _paragraphs = new Pragraph[](projects[_id].paragraphs.length);
+    for (uint256 i = 0; i < projects[_id].paragraphs.length; i++) {
+      _paragraphs[i] = paragraphs[projects[_id].paragraphs[i]];
+    }
+    return _paragraphs;
   }
 
   function fundProject(uint256 _projectId) external payable {

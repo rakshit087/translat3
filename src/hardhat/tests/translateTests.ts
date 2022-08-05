@@ -34,7 +34,6 @@ describe("Translate", () => {
     it("Project should be posted with the right details", async () => {
       const project = await contract.getProject(0);
       expect(project.title).to.equal("Project 1");
-      expect(project.paragraphs[0].text).to.equal("para1p1");
     });
     it("Project owner should be the primary wallet", async () => {
       const project = await contract.projects(0);
@@ -43,6 +42,10 @@ describe("Translate", () => {
     it("Project vault should have value", async () => {
       const project = await contract.projects(0);
       expect(project.vault.toString()).to.equal("5000000000000000000");
+    });
+    it("Project paragraphs are posted", async () => {
+      const paragraphs = await contract.getProjectParagraphs(0);
+      expect(paragraphs[0].text).to.equal("para1p1");
     });
   });
   describe("Funding project", () => {
