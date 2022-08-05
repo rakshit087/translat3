@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Flex } from "@chakra-ui/react";
-import { Home } from "../layouts/Home";
+import { Box, Flex } from "@chakra-ui/react";
 import { useAccount } from "wagmi";
 
 function Dashboard() {
@@ -20,7 +19,9 @@ function Dashboard() {
       }}
     >
       <Flex grow={1} mt={"10vh"} ml={{ base: 0, md: "4rem" }} px={{ base: 12, md: 16 }} py={8}>
-        <Home />
+        <Box mx={{ base: "auto", md: "4rem" }}>
+          <p>The user stats will come here</p>
+        </Box>
       </Flex>
     </Flex>
   );
