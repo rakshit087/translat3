@@ -8,13 +8,13 @@ export const Vault = () => {
       flexDirection={"column"}
       height={{ base: 52, md: 64 }}
       justifyContent={"space-between"}
-      minWidth={{ base: "16rem", md: "24rem" }}
+      width={{ base: "100%", md: "24rem" }}
       px={8}
       py={4}
       rounded={"xl"}
     >
       <Text fontSize={"xl"}>Your Vault</Text>
-      <Text textAlign={"center"} fontSize={"5xl"}>
+      <Text textAlign={"center"} fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
         0.00 MATIC
       </Text>
       <Button w={"100%"} colorScheme="purple" variant="solid" size={"sm"} rounded="2xl" margin={0}>
