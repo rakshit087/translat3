@@ -97,4 +97,10 @@ describe("Translate", () => {
       expect(projectsBySecondary.length).to.equal(1);
     }).timeout(10000);
   });
+  describe("Accessing Translator Vault", () => {
+    it("Should return the translator vault", async () => {
+      const translator = await contract.translators(primaryWallet.address);
+      expect(translator.vault.toString()).to.equal("0");
+    });
+  });
 });
