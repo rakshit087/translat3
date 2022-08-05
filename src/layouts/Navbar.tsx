@@ -18,7 +18,7 @@ export const Navbar = () => {
     >
       <Flex h="9.8vh" alignItems={"center"} justifyContent={"space-between"}>
         <Text fontSize="3xl">Translat3</Text>
-        <Box>
+        <Flex>
           <IconButton
             aria-label="theme switcher"
             icon={colorMode == "dark" ? <MoonIcon /> : <SunIcon />}
@@ -27,7 +27,7 @@ export const Navbar = () => {
             marginRight={2}
           />
           <User />
-        </Box>
+        </Flex>
       </Flex>
     </Box>
   );
