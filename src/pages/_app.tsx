@@ -1,4 +1,5 @@
 import "@rainbow-me/rainbowkit/styles.css";
+import "./global.css";
 import theme from "../utilities/theme";
 import { ChakraProvider, ColorModeScript, Flex } from "@chakra-ui/react";
 import { Navbar } from "../layouts/Navbar";
