@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { useWaitForTransaction, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { useEffect } from "react";
 import { Button, useToast } from "@chakra-ui/react";
-
+import { useRouter } from "next/router";
 interface datatypes {
   dataProp: {
     name: string;
@@ -17,6 +17,7 @@ interface datatypes {
 }
 
 export const AddProjectButton = ({ dataProp, onClose }: datatypes) => {
+  const router = useRouter();
   const paragraphs = dataProp.fileContent.split("/\r?\n|\r/g");
   const args = [dataProp.name, dataProp.description, dataProp.languageFrom, dataProp.languageTo, paragraphs];
   const value = dataProp.amount;
@@ -44,6 +45,7 @@ export const AddProjectButton = ({ dataProp, onClose }: datatypes) => {
         duration: 5000,
         isClosable: true,
       });
+      router.replace("/contribute");
     }
   }, [isSuccess]);
 
