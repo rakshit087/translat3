@@ -79,4 +79,19 @@ describe("Translate", () => {
       expect(projectsPage2[1].title).to.equal("Project 1");
     }).timeout(10000);
   });
+  describe("Getting Author Projects", () => {
+    it("Should return the projects by author in Pool", async () => {
+      await contract
+        .connect(secondaryWallet)
+        .postProject("Project 3", "Description 3", "English", "Spanish", ["para1p3", "para2p3", "para3p3"], {
+          value: ethers.utils.parseUnits("1", "ether"),
+        });
+      const projects = await contract.getLatestAuthorPoolProjects(1);
+      expect(projects.length).to.equal(2);
+      expect(projects[0].title).to.equal("Project 2");
+      expect(projects[1].title).to.equal("Project 1");
+      const projectsBySecondary = await contract.connect(secondaryWallet).getLatestAuthorPoolProjects(1);
+      expect(projectsBySecondary.length).to.equal(1);
+    }).timeout(10000);
+  });
 });

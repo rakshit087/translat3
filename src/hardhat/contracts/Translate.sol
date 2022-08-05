@@ -45,6 +45,7 @@ contract Translat3 {
 
   mapping(address => Translator) public translators;
   mapping(uint256 => Project) public projects;
+  mapping(address => uint256[]) public authors;
 
   function postProject(
     string memory _title,
@@ -68,22 +69,12 @@ contract Translat3 {
       _paragraph.text = _paragraphs[i];
       projects[projectId].paragraphs.push(_paragraph);
     }
+    authors[msg.sender].push(projectId);
     projectId++;
   }
 
   function getProject(uint256 _id) public view returns (Project memory) {
     return projects[_id];
-  }
-
-  function fundProject(uint256 _projectId) external payable {
-    require(projects[_projectId].status == 0, "Project is not in pooling phase");
-    projects[_projectId].vault += msg.value;
-  }
-
-  function toTranslationPhase(uint256 _projectId) external {
-    require(msg.sender == projects[_projectId].author);
-    require(projects[_projectId].status == 0);
-    projects[_projectId].status = 1;
   }
 
   function getLatestPoolProjects(uint256 _flag) external view returns (Project[] memory) {
@@ -100,6 +91,64 @@ contract Translat3 {
       }
     }
     return _projects;
+  }
+
+  function getLatestTranlationProjects(uint256 _flag) external view returns (Project[] memory) {
+    require(projectId - ((_flag - 1) * 10) > 0);
+    uint256 _localProjectId = projectId - ((_flag - 1) * 10);
+    console.log("Local project id: ", _localProjectId);
+    uint256 _count = 0;
+    Project[] memory _projects = new Project[](10);
+    while (_count < 10 && _localProjectId > 0) {
+      if (projects[_localProjectId].status == 1) {
+        _projects[_count] = projects[_localProjectId-1];
+        _localProjectId--;
+        _count++;
+      }
+    }
+    return _projects;
+  }
+
+  function getLatestAuthorTranslationProjects(uint256 _flag) external view returns (Project[] memory) {
+    require(authors[msg.sender].length - ((_flag - 1) * 10) > 0);
+    uint256 _requiredCount = authors[msg.sender].length > 10 ? 10 : authors[msg.sender].length;
+    uint256 _count = 0;
+    uint256 _pointer = authors[msg.sender].length - ((_flag - 1) * 10);
+    Project[] memory _projects = new Project[](_requiredCount);
+    while (_count < _requiredCount) {
+      if (projects[_pointer].status == 1) {
+        _projects[_count] = projects[_pointer-1];
+        _pointer--;
+        _count++;
+      }
+    }
+    return _projects;
+  }
+  function getLatestAuthorPoolProjects(uint256 _flag) external view returns (Project[] memory) {
+    require(authors[msg.sender].length - ((_flag - 1) * 10) > 0);
+    uint256 _requiredCount = authors[msg.sender].length > 10 ? 10 : authors[msg.sender].length;
+    uint256 _count = 0;
+    uint256 _pointer = authors[msg.sender].length - ((_flag - 1) * 10);
+    Project[] memory _projects = new Project[](_requiredCount);
+    while (_count < _requiredCount) {
+      if (projects[_pointer].status == 0) {
+        _projects[_count] = projects[_pointer-1];
+        _pointer--;
+        _count++;
+      }
+    }
+    return _projects;
+  }
+
+  function fundProject(uint256 _projectId) external payable {
+    require(projects[_projectId].status == 0, "Project is not in pooling phase");
+    projects[_projectId].vault += msg.value;
+  }
+
+  function toTranslationPhase(uint256 _projectId) external {
+    require(msg.sender == projects[_projectId].author);
+    require(projects[_projectId].status == 0);
+    projects[_projectId].status = 1;
   }
 
   //@TODO: Improve the security of this function
