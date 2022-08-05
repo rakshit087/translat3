@@ -32,7 +32,7 @@ function Dashboard() {
         <Vault />
         <UserPooled />
         <UserTranslate />
-        {/* <UserFinished /> */}
+        <UserFinished />
       </Box>
     </Flex>
   );

@@ -114,7 +114,23 @@ contract Translat3 {
     return _projects;
   }
 
-  function getLatestAuthorTranslationProjects(uint256 _flag) external view returns (Project[] memory) {
+  function getAuthorPoolProjects(uint256 _flag) external view returns (Project[] memory) {
+    require(authors[msg.sender].length - ((_flag - 1) * 10) > 0);
+    uint256 _requiredCount = authors[msg.sender].length > 10 ? 10 : authors[msg.sender].length;
+    uint256 _count = 0;
+    uint256 _pointer = authors[msg.sender].length - ((_flag - 1) * 10);
+    Project[] memory _projects = new Project[](_requiredCount);
+    while (_count < _requiredCount) {
+      if (projects[_pointer].status == 0) {
+        _projects[_count] = projects[_pointer - 1];
+        _pointer--;
+        _count++;
+      }
+    }
+    return _projects;
+  }
+
+  function getAuthorTranslationProjects(uint256 _flag) external view returns (Project[] memory) {
     require(authors[msg.sender].length - ((_flag - 1) * 10) > 0);
     uint256 _requiredCount = authors[msg.sender].length > 10 ? 10 : authors[msg.sender].length;
     uint256 _count = 0;
@@ -130,14 +146,14 @@ contract Translat3 {
     return _projects;
   }
 
-  function getLatestAuthorPoolProjects(uint256 _flag) external view returns (Project[] memory) {
+  function getAuthorFinishedProjects(uint256 _flag) external view returns (Project[] memory) {
     require(authors[msg.sender].length - ((_flag - 1) * 10) > 0);
     uint256 _requiredCount = authors[msg.sender].length > 10 ? 10 : authors[msg.sender].length;
     uint256 _count = 0;
     uint256 _pointer = authors[msg.sender].length - ((_flag - 1) * 10);
     Project[] memory _projects = new Project[](_requiredCount);
     while (_count < _requiredCount) {
-      if (projects[_pointer].status == 0) {
+      if (projects[_pointer].status == 2) {
         _projects[_count] = projects[_pointer - 1];
         _pointer--;
         _count++;

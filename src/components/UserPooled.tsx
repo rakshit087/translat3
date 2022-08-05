@@ -4,6 +4,7 @@ import { Button, useColorModeValue } from "@chakra-ui/react";
 import { useContractRead } from "wagmi";
 import { useState } from "react";
 import { WithdrawButton } from "./WithdrawButton";
+import { ToTranslationButton } from "./ToTranslation";
 
 export const UserPooled = () => {
   const bgColor = useColorModeValue("gray.100", "gray.700");
@@ -45,7 +46,7 @@ export const UserPooled = () => {
               <Text fontSize={"sm"} textAlign="center">
                 {project.description.slice(0, 100)}
               </Text>
-              <WithdrawButton />
+              <ToTranslationButton />
             </Flex>
           ))}
         </Flex>
