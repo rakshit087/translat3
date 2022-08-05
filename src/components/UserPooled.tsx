@@ -3,7 +3,6 @@ import { Flex, SkeletonText, Text } from "@chakra-ui/react";
 import { Button, useColorModeValue } from "@chakra-ui/react";
 import { useContractRead } from "wagmi";
 import { useState } from "react";
-import { WithdrawButton } from "./WithdrawButton";
 import { ToTranslationButton } from "./ToTranslation";
 
 export const UserPooled = () => {
