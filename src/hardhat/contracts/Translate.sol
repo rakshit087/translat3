@@ -180,4 +180,10 @@ contract Translat3 {
     projects[_projectId].vault -= _totalAmount;
     projects[_projectId].status = 2;
   }
+
+  function withdrawVault() external {
+    require(translators[msg.sender].vault > 0);
+    payable(msg.sender).transfer(translators[msg.sender].vault);
+    translators[msg.sender].vault = 0;
+  }
 }
