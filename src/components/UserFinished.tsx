@@ -3,12 +3,12 @@ import { Flex, SkeletonText, Text } from "@chakra-ui/react";
 import { Button, useColorModeValue } from "@chakra-ui/react";
 import { useContractRead } from "wagmi";
 import { useState } from "react";
-import { WithdrawButton } from "./WithdrawButton";
+import { ToTranslationButton } from "./ToTranslation";
 
 export const UserFinished = () => {
   const bgColor = useColorModeValue("gray.100", "gray.700");
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useContractRead({
+  const { data, isLoading, isError } = useContractRead({
     addressOrName: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
     contractInterface: abiJSON.abi,
     functionName: "getAuthorFinishedProjects",
@@ -17,9 +17,35 @@ export const UserFinished = () => {
   return (
     <>
       <Text fontSize={"2xl"} my={8}>
-        Projects our community helped you get Translated 💜
+        Finished Projects
       </Text>
-      {data ? (
+      {isLoading && (
+        <Flex
+          width={"16rem"}
+          bgColor={bgColor}
+          mr={12}
+          height={{ base: 52, md: 64 }}
+          justifyContent={"space-between"}
+          flexDirection={"column"}
+          p={"4"}
+          rounded="xl"
+          flex={"0 0 auto"}
+        >
+          <SkeletonText noOfLines={1} />
+          <SkeletonText noOfLines={4} />
+          <Button colorScheme="purple" size="sm" rounded="2xl" isDisabled>
+            <SkeletonText noOfLines={1} />
+          </Button>
+        </Flex>
+      )}
+      {isError && (
+        <Flex alignItems={"center"} justifyContent={"center"}>
+          <Text fontSize={"lg"} my={8}>
+            💔
+          </Text>
+        </Flex>
+      )}
+      {!isLoading && !isError && data && data.length > 0 && (
         <Flex overflowX={"auto"} flexWrap={"nowrap"} scrollBehavior={"smooth"} paddingBottom={4}>
           {data.map((project) => (
             <Flex
@@ -45,27 +71,9 @@ export const UserFinished = () => {
               <Text fontSize={"sm"} textAlign="center">
                 {project.description.slice(0, 100)}
               </Text>
-              <WithdrawButton />
+              <ToTranslationButton />
             </Flex>
           ))}
-        </Flex>
-      ) : (
-        <Flex
-          width={"16rem"}
-          bgColor={bgColor}
-          mr={12}
-          height={{ base: 52, md: 64 }}
-          justifyContent={"space-between"}
-          flexDirection={"column"}
-          p={"4"}
-          rounded="xl"
-          flex={"0 0 auto"}
-        >
-          <SkeletonText noOfLines={1} />
-          <SkeletonText noOfLines={4} />
-          <Button colorScheme="purple" size="sm" rounded="2xl" isDisabled>
-            <SkeletonText noOfLines={1} />
-          </Button>
         </Flex>
       )}
     </>

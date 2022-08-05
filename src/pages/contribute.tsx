@@ -1,16 +1,16 @@
 import abiJSON from "../hardhat/artifacts/src/hardhat/contracts/Translate.sol/Translat3.json";
-import { Flex, SimpleGrid } from "@chakra-ui/react";
+import { Button, Flex, SimpleGrid, SkeletonText, useColorModeValue, Text } from "@chakra-ui/react";
 import { PoolProject } from "../components/PoolProject";
 import { useAccount, useContractRead } from "wagmi";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-
 function Contribute() {
+  const bgColor = useColorModeValue("gray.100", "gray.700");
   const { isConnected } = useAccount();
   const router = useRouter();
   const [page, setPage] = useState<number>(1);
   const [filtered, setFiltered] = useState(null);
-  const { data, isLoading } = useContractRead({
+  const { data, isLoading, isError } = useContractRead({
     addressOrName: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
     contractInterface: abiJSON.abi,
     functionName: "getLatestPoolProjects",
@@ -49,7 +49,24 @@ function Contribute() {
           })}
         </SimpleGrid>
       )}
-      {isLoading && <div>Loading...</div>}
+      {isLoading && (
+        <Flex bgColor={bgColor} flexDirection={"column"} height={80} borderRadius="xl" px={8} py={4} width={64}>
+          <Flex>
+            <SkeletonText />
+          </Flex>
+          <Flex py={1} h={10} alignItems={"center"} justifyContent="space-between" roundedBottom={"xl"}>
+            <Button disabled>
+              {" "}
+              <SkeletonText noOfLines={1} />{" "}
+            </Button>
+          </Flex>
+        </Flex>
+      )}
+      {isError && (
+        <Flex alignItems={"center"} justifyContent={"center"}>
+          <Text fontSize={"xl"}>No projects are available at the moment.</Text>
+        </Flex>
+      )}
     </Flex>
   );
 }
