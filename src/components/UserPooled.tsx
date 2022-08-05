@@ -11,7 +11,7 @@ export const UserPooled = () => {
   const { data, isLoading } = useContractRead({
     addressOrName: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
     contractInterface: abiJSON.abi,
-    functionName: "getLatestAuthorPoolProjects",
+    functionName: "getAuthorPoolProjects",
     args: [page],
   });
   return (

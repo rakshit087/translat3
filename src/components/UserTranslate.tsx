@@ -10,7 +10,7 @@ export const UserTranslate = () => {
   const { data, isLoading } = useContractRead({
     addressOrName: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
     contractInterface: abiJSON.abi,
-    functionName: "getLatestAuthorTranslateProjects",
+    functionName: "getAuthorTranslateProjects",
     args: [page],
   });
   return (
