@@ -1,6 +1,17 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
-import { useColorModeValue } from "@chakra-ui/react";
+import abiJSON from "../hardhat/artifacts/src/hardhat/contracts/Translate.sol/Translat3.json";
+import { useAccount, useContractRead } from "wagmi";
+import { Button, Flex, Text, useColorModeValue, SkeletonText } from "@chakra-ui/react";
+import { WithdrawButton } from "./WithdrawButton";
+
 export const Vault = () => {
+  const { address } = useAccount();
+  const { data, isLoading } = useContractRead({
+    addressOrName: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+    contractInterface: abiJSON.abi,
+    functionName: "translators",
+    args: address,
+  });
+
   const bgColor = useColorModeValue("gray.100", "gray.700");
   return (
     <Flex
@@ -14,12 +25,14 @@ export const Vault = () => {
       rounded={"xl"}
     >
       <Text fontSize={"xl"}>Your Vault</Text>
-      <Text textAlign={"center"} fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
-        0.00 MATIC
-      </Text>
-      <Button w={"100%"} colorScheme="purple" variant="solid" size={"sm"} rounded="2xl" margin={0}>
-        Claim Tokens
-      </Button>
+      {data ? (
+        <Text textAlign={"center"} fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
+          {(parseFloat(data.vault) / 1e18).toString().slice(0, 4)} MATIC
+        </Text>
+      ) : (
+        <SkeletonText />
+      )}
+      <WithdrawButton />
     </Flex>
   );
 };
