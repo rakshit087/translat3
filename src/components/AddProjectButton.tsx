@@ -54,7 +54,7 @@ export const AddProjectButton = ({ dataProp, onClose }: datatypes) => {
       colorScheme={"purple"}
       onClick={() => {
         try {
-          write();
+          write?.();
         } catch {
           toast({
             title: "Error",
