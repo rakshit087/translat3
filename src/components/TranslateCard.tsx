@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Text, useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
-import { Project } from "./Project";
+import { useRouter } from "next/router";
 
 interface datatype {
   id: number;
@@ -12,12 +12,11 @@ interface datatype {
 }
 
 export const TranslateCard = (data: datatype) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter();
   const [amount, setAmount] = useState<string>(data.pooledAmount);
   const bgColor = useColorModeValue("gray.100", "gray.700");
   return (
     <>
-      <Project projectId={data.id} isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
       <Flex bgColor={bgColor} flexDirection={"column"} height={80} borderRadius="xl" px={8} py={4}>
         <Flex grow={1} flexDir={"column"}>
           <Flex flexDirection={"row-reverse"} position="relative" left={5}>
@@ -45,7 +44,15 @@ export const TranslateCard = (data: datatype) => {
           </Box>
         </Flex>
         <Flex py={1} h={10} alignItems={"center"} justifyContent="space-between" roundedBottom={"xl"}>
-          <Button colorScheme="purple" variant="solid" rounded="xl" width={"100%"} onClick={onOpen}>
+          <Button
+            colorScheme="purple"
+            variant="solid"
+            rounded="xl"
+            width={"100%"}
+            onClick={() => {
+              router.replace(`/project/${data.id}`);
+            }}
+          >
             Translate
           </Button>
         </Flex>
