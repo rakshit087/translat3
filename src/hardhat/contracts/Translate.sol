@@ -130,6 +130,10 @@ contract Translat3 {
     return _projects;
   }
 
+  function getTranslatorVault() external view returns (uint256) {
+    return translators[msg.sender].vault;
+  }
+
   function getAuthorTranslationProjects(uint256 _flag) external view returns (Project[] memory) {
     require(authors[msg.sender].length - ((_flag - 1) * 10) > 0);
     uint256 _requiredCount = authors[msg.sender].length > 10 ? 10 : authors[msg.sender].length;

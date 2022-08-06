@@ -8,11 +8,11 @@ export const Vault = () => {
   const { data, isLoading } = useContractRead({
     addressOrName: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
     contractInterface: abiJSON.abi,
-    functionName: "translators",
-    args: address,
+    functionName: "getTranslatorVault",
   });
 
   const bgColor = useColorModeValue("gray.100", "gray.700");
+  console.log(data);
   return (
     <Flex
       bgColor={bgColor}
@@ -25,14 +25,22 @@ export const Vault = () => {
       rounded={"xl"}
     >
       <Text fontSize={"xl"}>Your Vault</Text>
-      {data ? (
-        <Text textAlign={"center"} fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
-          {(parseFloat(data.vault) / 1e18).toString().slice(0, 4)} MATIC
-        </Text>
-      ) : (
-        <SkeletonText />
+      {data && (
+        <>
+          <Text textAlign={"center"} fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
+            {(parseFloat(data.toString()) / 1e18).toString().slice(0, 4)} MATIC
+          </Text>
+          <WithdrawButton amount={(parseFloat(data.toString()) / 1e18).toString().slice(0, 4)} />
+        </>
       )}
-      <WithdrawButton />
+      {isLoading && (
+        <>
+          <SkeletonText />
+          <Button w={"100%"} colorScheme="purple" variant="solid" size={"sm"} rounded="2xl" isDisabled>
+            Claim Tokens
+          </Button>
+        </>
+      )}
     </Flex>
   );
 };
