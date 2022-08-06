@@ -48,13 +48,15 @@ export const SideDrawer = () => {
         color={"gray.500"}
       />
       <IconButton
-        aria-label="translate project"
+        aria-label="translate"
         icon={<MdOutlineTranslate size={"1.5rem"} />}
         rounded="full"
         size="lg"
-        onClick={() => {}}
+        onClick={() => {
+          router.replace("/translate");
+        }}
         my={4}
-        bgColor={currentUrl == "translate-projects" ? primaryColor : "transparent"}
+        bgColor={currentUrl == "translate" ? primaryColor : "transparent"}
         color={"gray.500"}
       />
       <Box textAlign="center">
