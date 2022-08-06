@@ -1,10 +1,9 @@
 import abiJSON from "../hardhat/artifacts/src/hardhat/contracts/Translate.sol/Translat3.json";
-import { useAccount, useContractRead } from "wagmi";
+import { useContractRead } from "wagmi";
 import { Button, Flex, Text, useColorModeValue, SkeletonText } from "@chakra-ui/react";
 import { WithdrawButton } from "./WithdrawButton";
 
 export const Vault = () => {
-  const { address } = useAccount();
   const { data, isLoading } = useContractRead({
     addressOrName: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
     contractInterface: abiJSON.abi,
@@ -12,7 +11,6 @@ export const Vault = () => {
   });
 
   const bgColor = useColorModeValue("gray.100", "gray.700");
-  console.log(data);
   return (
     <Flex
       bgColor={bgColor}
