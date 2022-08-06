@@ -1,7 +1,8 @@
-import { Button, Box, SkeletonText, Flex } from "@chakra-ui/react";
+import { Button, Box, SkeletonText, Flex, useColorModeValue, IconButton, Text } from "@chakra-ui/react";
 import abiJSON from "../hardhat/artifacts/src/hardhat/contracts/Translate.sol/Translat3.json";
-import { useContractRead } from "wagmi";
+import { useContractRead, useAccount } from "wagmi";
 import { AddTranslation } from "./AddTranslation";
+import { MdThumbUp } from "react-icons/md";
 
 export const Translations = ({ paragraphId }) => {
   const { data, isLoading, isError } = useContractRead({
@@ -10,15 +11,32 @@ export const Translations = ({ paragraphId }) => {
     functionName: "getParagraphTranslations",
     args: [paragraphId],
   });
-  console.log(data);
+  const bgColor = useColorModeValue("gray.100", "gray.700");
+  const { address } = useAccount();
   return (
     <>
       {isLoading && <SkeletonText noOfLines={10} />}
-      {!isLoading && data.length == 0 && <p>No Translations Yet, add one now!</p>}
+      {!isLoading && !data && <p>No Translations Yet, add one now!</p>}
       {!isLoading &&
         data &&
         data.map((translation) => {
-          return <Flex>{translation.text}</Flex>;
+          return (
+            <Flex alignItems={"center"} bgColor={bgColor} justifyContent={"space-between"} mb={8} p={8} rounded={"xl"}>
+              <Text w={"85%"} lineHeight={2}>
+                {translation.text}
+              </Text>
+              <Flex flexDirection={"column"} alignItems="center">
+                <IconButton
+                  aria-label="vote"
+                  icon={<MdThumbUp />}
+                  colorScheme="purple"
+                  isDisabled={translation.voters.includes(address)}
+                  mb={2}
+                />
+                <Text>{parseInt(translation.votes)}</Text>
+              </Flex>
+            </Flex>
+          );
         })}
       <AddTranslation paragraphId={paragraphId} />
     </>

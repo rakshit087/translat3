@@ -46,13 +46,12 @@ const Project = () => {
               p={3}
               mb={2}
               rounded={"xl"}
-              bgColor={selectedParagraph === parseInt(paragraph.id) ? bgColor : "transparent"}
+              filter={"auto"}
+              blur={selectedParagraph === parseInt(paragraph.id) ? "0" : "4px"}
+              lineHeight={2}
             >
               <Text
                 cursor={"pointer"}
-                _hover={{
-                  textColor: selectedParagraph === parseInt(paragraph.id) ? "white" : primaryColor,
-                }}
                 onClick={() => {
                   setSelectedParagraph(parseInt(paragraph.id));
                 }}
