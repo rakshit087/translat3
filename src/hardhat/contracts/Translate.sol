@@ -9,7 +9,8 @@ contract Translat3 {
 
   struct Translation {
     uint256 id;
-    uint256 text;
+    string text;
+    address author;
     address[] voters;
     uint256 votes;
   }
@@ -17,7 +18,7 @@ contract Translat3 {
   struct Pragraph {
     uint256 id;
     string text;
-    string[] translations;
+    uint256[] translations;
   }
 
   struct Project {
@@ -38,6 +39,11 @@ contract Translat3 {
     uint256 vault;
   }
 
+  struct Author {
+    address id;
+    uint256[] projects;
+  }
+
   struct Distribution {
     address[] translators;
     uint256[] amount;
@@ -48,8 +54,9 @@ contract Translat3 {
   mapping(uint256 => Project) public projects;
   mapping(uint256 => Pragraph) public paragraphs;
   mapping(uint256 => Translation) public translations;
-  mapping(address => uint256[]) public authors;
+  mapping(address => Author) public authors;
 
+  //Posting Project
   function postProject(
     string memory _title,
     string memory _description,
@@ -74,104 +81,90 @@ contract Translat3 {
       paragraphs[paragraphId] = _paragraph;
       paragraphId++;
     }
-    authors[msg.sender].push(projectId);
+    authors[msg.sender].projects.push(projectId);
     projectId++;
   }
 
+  //Posting Translation
+  function postTranslation(
+    uint256 _projectId,
+    uint256 _paragraphId,
+    string memory _text
+  ) external {
+    require(projects[_projectId].status == 1, "Project is not in translation phase");
+    Translation memory _translation;
+    _translation.id = traslateId;
+    _translation.text = _text;
+    _translation.author = msg.sender;
+    paragraphs[_paragraphId].translations.push(traslateId);
+    translations[traslateId] = _translation;
+    traslateId++;
+  }
+
+  //Voting for Translation
+  function vote(uint256 _translationId) external {
+    require(translations[_translationId].author != msg.sender, "You can't vote for your own translation");
+    //Check if already voted
+    for (uint256 i = 0; i < translations[_translationId].voters.length; i++) {
+      if (translations[_translationId].voters[i] == msg.sender) {
+        return;
+      }
+    }
+    translations[_translationId].voters.push(msg.sender);
+    translations[_translationId].votes++;
+  }
+
+  //Get the project details
   function getProject(uint256 _id) public view returns (Project memory) {
     return projects[_id];
   }
 
-  function getLatestPoolProjects(uint256 _flag) external view returns (Project[] memory) {
+  //Get Latest Projects, flag is page number
+  function getLatestProjects(uint256 _flag, uint256 _status) external view returns (Project[] memory) {
     require(projectId - ((_flag - 1) * 10) > 0);
     uint256 _localProjectId = projectId - ((_flag - 1) * 10);
     console.log("Local project id: ", _localProjectId);
     uint256 _count = 0;
     Project[] memory _projects = new Project[](10);
     while (_count < 10 && _localProjectId > 0) {
-      if (projects[_localProjectId].status == 0) {
+      if (projects[_localProjectId - 1].status == _status) {
         _projects[_count] = projects[_localProjectId - 1];
-        _localProjectId--;
         _count++;
       }
+      _localProjectId--;
     }
     return _projects;
   }
 
-  function getLatestTranlationProjects(uint256 _flag) external view returns (Project[] memory) {
-    require(projectId - ((_flag - 1) * 10) > 0);
-    uint256 _localProjectId = projectId - ((_flag - 1) * 10);
-    console.log("Local project id: ", _localProjectId);
-    uint256 _count = 0;
-    Project[] memory _projects = new Project[](10);
-    while (_count < 10 && _localProjectId > 0) {
-      if (projects[_localProjectId].status == 1) {
-        _projects[_count] = projects[_localProjectId - 1];
-        _localProjectId--;
-        _count++;
-      }
-    }
-    return _projects;
-  }
-
-  function getAuthorPoolProjects(uint256 _flag) external view returns (Project[] memory) {
-    require(authors[msg.sender].length - ((_flag - 1) * 10) > 0);
-    uint256 _requiredCount = authors[msg.sender].length > 10 ? 10 : authors[msg.sender].length;
-    uint256 _count = 0;
-    uint256 _pointer = authors[msg.sender].length - ((_flag - 1) * 10);
-    Project[] memory _projects = new Project[](_requiredCount);
-    while (_count < _requiredCount) {
-      if (projects[_pointer].status == 0) {
-        _projects[_count] = projects[_pointer - 1];
-        _pointer--;
-        _count++;
-      }
-    }
-    return _projects;
-  }
-
+  //Get Translator Vault
   function getTranslatorVault() external view returns (uint256) {
     return translators[msg.sender].vault;
   }
 
-  function getAuthorTranslationProjects(uint256 _flag) external view returns (Project[] memory) {
-    require(authors[msg.sender].length - ((_flag - 1) * 10) > 0);
-    uint256 _requiredCount = authors[msg.sender].length > 10 ? 10 : authors[msg.sender].length;
-    uint256 _count = 0;
-    uint256 _pointer = authors[msg.sender].length - ((_flag - 1) * 10);
-    Project[] memory _projects = new Project[](_requiredCount);
-    while (_count < _requiredCount) {
-      if (projects[_pointer].status == 1) {
-        _projects[_count] = projects[_pointer - 1];
-        _pointer--;
-        _count++;
-      }
+  //Get Author Projects
+  function getAuthorProjects() external view returns (Project[] memory) {
+    require(authors[msg.sender].projects.length > 0);
+    Project[] memory _projects = new Project[](authors[msg.sender].projects.length);
+    for (uint256 i = 0; i < authors[msg.sender].projects.length; i++) {
+      _projects[i] = projects[authors[msg.sender].projects[i]];
     }
     return _projects;
   }
 
-  function getAuthorFinishedProjects(uint256 _flag) external view returns (Project[] memory) {
-    require(authors[msg.sender].length - ((_flag - 1) * 10) > 0);
-    uint256 _requiredCount = authors[msg.sender].length > 10 ? 10 : authors[msg.sender].length;
-    uint256 _count = 0;
-    uint256 _pointer = authors[msg.sender].length - ((_flag - 1) * 10);
-    Project[] memory _projects = new Project[](_requiredCount);
-    while (_count < _requiredCount) {
-      if (projects[_pointer].status == 2) {
-        _projects[_count] = projects[_pointer - 1];
-        _pointer--;
-        _count++;
-      }
-    }
-    return _projects;
-  }
-
-  function getProjectParagraphs(uint256 _id) public view returns (Pragraph[] memory) {
+  function getProjectParagraphs(uint256 _id) external view returns (Pragraph[] memory) {
     Pragraph[] memory _paragraphs = new Pragraph[](projects[_id].paragraphs.length);
     for (uint256 i = 0; i < projects[_id].paragraphs.length; i++) {
       _paragraphs[i] = paragraphs[projects[_id].paragraphs[i]];
     }
     return _paragraphs;
+  }
+
+  function getParagraphTranslations(uint256 _paragraphId) external view returns (Translation[] memory) {
+    Translation[] memory _translations = new Translation[](paragraphs[_paragraphId].translations.length);
+    for (uint256 i = 0; i < paragraphs[_paragraphId].translations.length; i++) {
+      _translations[i] = translations[paragraphs[_paragraphId].translations[i]];
+    }
+    return _translations;
   }
 
   function fundProject(uint256 _projectId) external payable {
