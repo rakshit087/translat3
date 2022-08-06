@@ -49,6 +49,8 @@ const Project = () => {
               filter={"auto"}
               blur={selectedParagraph === parseInt(paragraph.id) ? "0" : "4px"}
               lineHeight={2}
+              className="animate"
+              mx={"auto"}
             >
               <Text
                 cursor={"pointer"}
