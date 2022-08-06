@@ -1,19 +1,8 @@
-import abiJSON from "../hardhat/artifacts/src/hardhat/contracts/Translate.sol/Translat3.json";
 import { Flex, SkeletonText, Text } from "@chakra-ui/react";
 import { Button, useColorModeValue } from "@chakra-ui/react";
-import { useContractRead } from "wagmi";
-import { useState } from "react";
-import { ToTranslationButton } from "./ToTranslation";
 
-export const UserFinished = () => {
+export const UserFinished = ({ data, isLoading }) => {
   const bgColor = useColorModeValue("gray.100", "gray.700");
-  const [page, setPage] = useState(1);
-  const { data, isLoading, isError } = useContractRead({
-    addressOrName: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-    contractInterface: abiJSON.abi,
-    functionName: "getAuthorFinishedProjects",
-    args: [page],
-  });
   return (
     <>
       <Text fontSize={"2xl"} my={8}>
@@ -38,14 +27,14 @@ export const UserFinished = () => {
           </Button>
         </Flex>
       )}
-      {isError && (
+      {!isLoading && data.length == 0 && (
         <Flex alignItems={"center"} justifyContent={"center"}>
           <Text fontSize={"lg"} my={8}>
             💔
           </Text>
         </Flex>
       )}
-      {!isLoading && !isError && data && data.length > 0 && (
+      {!isLoading && data && (
         <Flex overflowX={"auto"} flexWrap={"nowrap"} scrollBehavior={"smooth"} paddingBottom={4}>
           {data.map((project) => (
             <Flex
@@ -71,7 +60,6 @@ export const UserFinished = () => {
               <Text fontSize={"sm"} textAlign="center">
                 {project.description.slice(0, 100)}
               </Text>
-              <ToTranslationButton />
             </Flex>
           ))}
         </Flex>

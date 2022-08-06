@@ -72,11 +72,11 @@ describe("Translate", () => {
           value: ethers.utils.parseUnits("1", "ether"),
         });
       }
-      const projects = await contract.getLatestPoolProjects(1);
+      const projects = await contract.getLatestProjects(1, 0);
       expect(projects.length).to.equal(10);
       expect(projects[0].title).to.equal("Project 12");
       expect(projects[9].title).to.equal("Project 3");
-      const projectsPage2 = await contract.getLatestPoolProjects(2);
+      const projectsPage2 = await contract.getLatestProjects(2, 0);
       expect(projectsPage2.length).to.equal(10);
       expect(projectsPage2[0].title).to.equal("Project 2");
       expect(projectsPage2[1].title).to.equal("Project 1");
@@ -89,11 +89,11 @@ describe("Translate", () => {
         .postProject("Project 3", "Description 3", "English", "Spanish", ["para1p3", "para2p3", "para3p3"], {
           value: ethers.utils.parseUnits("1", "ether"),
         });
-      const projects = await contract.getLatestAuthorPoolProjects(1);
+      const projects = await contract.getAuthorProjects();
       expect(projects.length).to.equal(2);
-      expect(projects[0].title).to.equal("Project 2");
-      expect(projects[1].title).to.equal("Project 1");
-      const projectsBySecondary = await contract.connect(secondaryWallet).getLatestAuthorPoolProjects(1);
+      expect(projects[0].title).to.equal("Project 1");
+      expect(projects[1].title).to.equal("Project 2");
+      const projectsBySecondary = await contract.connect(secondaryWallet).getAuthorProjects();
       expect(projectsBySecondary.length).to.equal(1);
     }).timeout(10000);
   });
@@ -102,5 +102,30 @@ describe("Translate", () => {
       const translator = await contract.translators(primaryWallet.address);
       expect(translator.vault.toString()).to.equal("0");
     });
+  });
+  describe("Phases of project", () => {
+    beforeEach(async () => {
+      await contract
+        .connect(secondaryWallet)
+        .postProject("Project 3", "Description 3", "English", "Spanish", ["para1p3", "para2p3", "para3p3"], {
+          value: ethers.utils.parseUnits("1", "ether"),
+        });
+    });
+    it("Should be in Translation phase", async () => {
+      const project = await contract.getProject(0);
+      const phase = project.status;
+      expect(phase.toString()).to.equal("0");
+      await contract.toTranslationPhase(0);
+      const projectAfter = await contract.getProject(0);
+      const phaseAfter = projectAfter.status;
+      expect(phaseAfter.toString()).to.equal("1");
+      const inPool = await contract.getLatestProjects(1, 0);
+      expect(inPool[0].title).to.equal("Project 3");
+      expect(inPool[1].title).to.equal("Project 2");
+      expect(inPool[2].title).to.equal("");
+      const inTranslation = await contract.getLatestProjects(1, 1);
+      expect(inTranslation[0].title).to.equal("Project 1");
+      expect(inTranslation[1].title).to.equal("");
+    }).timeout(10000);
   });
 });

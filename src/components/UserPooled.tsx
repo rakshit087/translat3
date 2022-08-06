@@ -1,19 +1,9 @@
-import abiJSON from "../hardhat/artifacts/src/hardhat/contracts/Translate.sol/Translat3.json";
 import { Flex, SkeletonText, Text } from "@chakra-ui/react";
 import { Button, useColorModeValue } from "@chakra-ui/react";
-import { useContractRead } from "wagmi";
-import { useState } from "react";
 import { ToTranslationButton } from "./ToTranslation";
 
-export const UserPooled = () => {
+export const UserPooled = ({ data, isLoading }) => {
   const bgColor = useColorModeValue("gray.100", "gray.700");
-  const [page, setPage] = useState(1);
-  const { data, isLoading, isError } = useContractRead({
-    addressOrName: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-    contractInterface: abiJSON.abi,
-    functionName: "getAuthorPoolProjects",
-    args: [page],
-  });
   return (
     <>
       <Text fontSize={"2xl"} my={8}>
@@ -38,14 +28,14 @@ export const UserPooled = () => {
           </Button>
         </Flex>
       )}
-      {isError && (
+      {data.length == 0 && (
         <Flex alignItems={"center"} justifyContent={"center"}>
           <Text fontSize={"lg"} my={8}>
             You dont have any projects in your pool.
           </Text>
         </Flex>
       )}
-      {!isLoading && !isError && data && data.length > 0 && (
+      {data && !isLoading && (
         <Flex overflowX={"auto"} flexWrap={"nowrap"} scrollBehavior={"smooth"} paddingBottom={4}>
           {data.map((project) => (
             <Flex
@@ -71,7 +61,7 @@ export const UserPooled = () => {
               <Text fontSize={"sm"} textAlign="center">
                 {project.description.slice(0, 100)}
               </Text>
-              <ToTranslationButton />
+              <ToTranslationButton projectId={parseInt(project.id)} />
             </Flex>
           ))}
         </Flex>

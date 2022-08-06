@@ -13,8 +13,8 @@ function Contribute() {
   const { data, isLoading, isError } = useContractRead({
     addressOrName: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
     contractInterface: abiJSON.abi,
-    functionName: "getLatestPoolProjects",
-    args: page,
+    functionName: "getLatestProjects",
+    args: [page, 0],
   });
 
   useEffect(() => {
