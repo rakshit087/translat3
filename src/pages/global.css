@@ -5,6 +5,11 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+div::-webkit-scrollbar {
+  background-color: transparent;
+  width: 12px;
+}
+
 ::-webkit-scrollbar {
   background-color: transparent;
   height: 10px;
