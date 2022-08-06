@@ -18,10 +18,8 @@ interface datatypes {
 
 export const AddProjectButton = ({ dataProp, onClose }: datatypes) => {
   const router = useRouter();
-  console.log(dataProp.fileContent);
   const paragraphs = dataProp.fileContent.split(/(?:\r?\n)+/);
   const args = [dataProp.name, dataProp.description, dataProp.languageFrom, dataProp.languageTo, paragraphs];
-  console.log(paragraphs);
   const value = dataProp.amount;
   const toast = useToast();
   const { config } = usePrepareContractWrite({
