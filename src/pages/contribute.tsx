@@ -1,6 +1,6 @@
 import abiJSON from "../hardhat/artifacts/src/hardhat/contracts/Translate.sol/Translat3.json";
 import { Button, Flex, SimpleGrid, SkeletonText, useColorModeValue, Text } from "@chakra-ui/react";
-import { PoolProject } from "../components/PoolProject";
+import { PoolCard } from "../components/PoolCard";
 import { useAccount, useContractRead } from "wagmi";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -36,7 +36,7 @@ function Contribute() {
         <SimpleGrid minChildWidth={{ base: "16rem", md: "20rem" }} w="100%" spacing={"2.5rem"}>
           {filtered.map((project) => {
             return (
-              <PoolProject
+              <PoolCard
                 key={parseInt(project.id)}
                 id={parseInt(project.id)}
                 name={project.title}

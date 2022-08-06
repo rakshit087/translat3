@@ -1,6 +1,5 @@
 import { Box, Button, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import { useState } from "react";
-import { PoolProjectButton } from "./PoolProjectButton";
 
 interface datatype {
   id: number;
@@ -11,7 +10,7 @@ interface datatype {
   pooledAmount: string;
 }
 
-export const PoolProject = (data: datatype) => {
+export const TranslateCard = (data: datatype) => {
   const [amount, setAmount] = useState<string>(data.pooledAmount);
   const bgColor = useColorModeValue("gray.100", "gray.700");
   return (
@@ -42,7 +41,10 @@ export const PoolProject = (data: datatype) => {
         </Box>
       </Flex>
       <Flex py={1} h={10} alignItems={"center"} justifyContent="space-between" roundedBottom={"xl"}>
-        <PoolProjectButton projectId={data.id} amount={amount} setAmount={setAmount} />
+        <Button colorScheme="purple" variant="solid" size={"sm"} rounded="xl" width={"100%"}>
+          {" "}
+          Translate{" "}
+        </Button>
       </Flex>
     </Flex>
   );

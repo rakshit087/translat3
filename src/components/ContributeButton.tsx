@@ -23,7 +23,7 @@ interface datatype {
   setAmount: (amount: string) => void;
 }
 
-export const PoolProjectButton = ({ projectId, amount, setAmount }: datatype) => {
+export const ContributeButton = ({ projectId, amount, setAmount }: datatype) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [addAmount, setAddAmount] = useState("0");
   const { config } = usePrepareContractWrite({
