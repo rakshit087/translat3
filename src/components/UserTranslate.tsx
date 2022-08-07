@@ -1,10 +1,10 @@
 import { Flex, SkeletonText, Text } from "@chakra-ui/react";
 import { Button, useColorModeValue } from "@chakra-ui/react";
 import { useState } from "react";
+import { Distribute } from "./Distribute";
 
 export const UserTranslate = ({ isLoading, data }) => {
   const bgColor = useColorModeValue("gray.100", "gray.700");
-
   return (
     <>
       <Text fontSize={"2xl"} my={8}>
@@ -52,7 +52,7 @@ export const UserTranslate = ({ isLoading, data }) => {
               flex={"0 0 auto"}
             >
               <Flex width={"100%"} justifyContent={"space-between"} alignItems={"center"}>
-                <Text fontSize={"lg"} textAlign="center">
+                <Text fontSize={"lg"} textAlign="center" noOfLines={1}>
                   {project.title}
                 </Text>
                 <Button disabled colorScheme="purple" variant="solid" h={"1rem"} rounded="2xl" marginLeft={2}>
@@ -62,6 +62,7 @@ export const UserTranslate = ({ isLoading, data }) => {
               <Text fontSize={"sm"} textAlign="center">
                 {project.description.slice(0, 100)}
               </Text>
+              <Distribute />
             </Flex>
           ))}
         </Flex>
