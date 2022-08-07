@@ -47,7 +47,7 @@ const Project = () => {
               mb={2}
               rounded={"xl"}
               filter={"auto"}
-              blur={selectedParagraph === parseInt(paragraph.id) ? "0" : "4px"}
+              blur={selectedParagraph === parseInt(paragraph.id) ? "0" : "2px"}
               lineHeight={2}
               className="animate"
               mx={"auto"}
