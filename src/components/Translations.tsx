@@ -2,17 +2,16 @@ import { Button, Box, SkeletonText, Flex, useColorModeValue, IconButton, Text } 
 import abiJSON from "../hardhat/artifacts/src/hardhat/contracts/Translate.sol/Translat3.json";
 import { useContractRead, useAccount } from "wagmi";
 import { AddTranslation } from "./AddTranslation";
-import { MdThumbUp } from "react-icons/md";
+import { VoteButton } from "./VoteButton";
 
 export const Translations = ({ paragraphId }) => {
-  const { data, isLoading, isError } = useContractRead({
+  const { data, isLoading } = useContractRead({
     addressOrName: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
     contractInterface: abiJSON.abi,
     functionName: "getParagraphTranslations",
     args: [paragraphId],
   });
   const bgColor = useColorModeValue("gray.100", "gray.700");
-  const { address } = useAccount();
   return (
     <>
       {isLoading && <SkeletonText noOfLines={10} />}
@@ -25,16 +24,7 @@ export const Translations = ({ paragraphId }) => {
               <Text w={"85%"} lineHeight={2}>
                 {translation.text}
               </Text>
-              <Flex flexDirection={"column"} alignItems="center">
-                <IconButton
-                  aria-label="vote"
-                  icon={<MdThumbUp />}
-                  colorScheme="purple"
-                  isDisabled={translation.voters.includes(address)}
-                  mb={2}
-                />
-                <Text>{parseInt(translation.votes)}</Text>
-              </Flex>
+              <VoteButton translation={translation} />
             </Flex>
           );
         })}

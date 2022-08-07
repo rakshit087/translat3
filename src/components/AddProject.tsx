@@ -1,7 +1,8 @@
-import { useColorModeValue, useDisclosure } from "@chakra-ui/react";
-import { MdOutlineAdd } from "react-icons/md";
-import { useState } from "react";
 import { AddFile } from "./AddFile";
+import { AddProjectButton } from "./AddProjectButton";
+import { MdOutlineAdd } from "react-icons/md";
+import { useColorModeValue, useDisclosure } from "@chakra-ui/react";
+import { useState } from "react";
 import {
   Button,
   IconButton,
@@ -17,7 +18,6 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import { AddProjectButton } from "./AddProjectButton";
 
 export const AddProject = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
