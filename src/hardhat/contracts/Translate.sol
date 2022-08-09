@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 import "hardhat/console.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Translat3 {
+contract Translat3 is Ownable {
   uint256 public projectId;
   uint256 private paragraphId;
   uint256 private traslateId;
@@ -47,7 +48,6 @@ contract Translat3 {
   struct Distribution {
     address[] translators;
     uint256[] amount;
-    uint256 length;
   }
 
   mapping(address => Translator) public translators;
@@ -179,18 +179,12 @@ contract Translat3 {
   }
 
   //@TODO: Improve the security of this function
-  function distribute(uint256 _projectId, Distribution memory _distribution) external payable {
-    require(projects[_projectId].author == msg.sender);
+  function distribute(uint256 _projectId, Distribution memory _distribution) external onlyOwner {
     require(projects[_projectId].status == 1);
-    uint256 _totalAmount = 0;
-    for (uint256 i = 0; i <= _distribution.length; i++) {
-      _totalAmount += _distribution.amount[i];
-    }
-    require(_totalAmount <= projects[_projectId].vault);
-    for (uint256 i = 0; i <= _distribution.length; i++) {
+    for (uint256 i = 0; i <= _distribution.translators.length; i++) {
       translators[_distribution.translators[i]].vault += _distribution.amount[i];
     }
-    projects[_projectId].vault -= _totalAmount;
+    projects[_projectId].vault = 0;
     projects[_projectId].status = 2;
   }
 
