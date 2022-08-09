@@ -46,12 +46,12 @@ export const UserPooled = ({ data, isLoading }) => {
               height={{ base: 52, md: 64 }}
               justifyContent={"space-between"}
               flexDirection={"column"}
-              p={"4"}
+              p={"2.5"}
               rounded="xl"
               flex={"0 0 auto"}
             >
               <Flex width={"100%"} justifyContent={"space-between"} alignItems={"center"}>
-                <Text fontSize={"lg"} textAlign="center">
+                <Text fontSize={"lg"} textAlign="center" noOfLines={1}>
                   {project.title}
                 </Text>
                 <Button disabled colorScheme="purple" variant="solid" h={"1rem"} rounded="2xl" marginLeft={2}>
