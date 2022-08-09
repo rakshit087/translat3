@@ -93,6 +93,7 @@ describe("Translate", () => {
       expect(projects.length).to.equal(2);
       expect(projects[0].title).to.equal("Project 1");
       expect(projects[1].title).to.equal("Project 2");
+      expect(projects.length).to.equal(2);
       const projectsBySecondary = await contract.connect(secondaryWallet).getAuthorProjects();
       expect(projectsBySecondary.length).to.equal(1);
     }).timeout(10000);
