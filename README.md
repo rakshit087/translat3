@@ -5,7 +5,7 @@
   <p align="center">
     A Web3 powered Localization Platform
     <br />
-    <a href="https://github.com/rakshit087/unlatch"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/rakshit087/tranlsat3"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     ·
