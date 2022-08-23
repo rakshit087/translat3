@@ -70,6 +70,9 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## How it Works?
+![Untitled](https://user-images.githubusercontent.com/50898928/186194354-84da3730-017a-403d-ba2b-a7c79de2874b.png)
+
 <!-- GETTING STARTED -->
 ## Getting Started
 
